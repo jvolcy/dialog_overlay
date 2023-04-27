@@ -4,72 +4,87 @@ using UnityEngine;
 
 public class NPCFollower : MonoBehaviour
 {
-    public Transform NPC_RootBone;
-    public Camera camera1 = null;
-    public RectTransform TopPanel;
-    public RectTransform BottomPanel;
-    public RectTransform TopPointer;
-    public RectTransform BottomPointer;
+    public Transform NPC_RootBone;  //the xform of the root bone of the NPC we will follow
+    public Camera camera1 = null;   //the camera associated with the canvas;  null=autoselect
+    public GameObject TopPanel;     //RectXform of the top dialog panel
+    public GameObject BottomPanel;   //RectXform of the bottom dialog panel
+    public RectTransform TopPointer;    //RectXform of the pointer associated with the top dialog panel
+    public RectTransform BottomPointer; //RectXform of the pointer associated with the bottom dialog panel
 
-    RectTransform canvasRectTransform;
-    //RectTransform parentRectTransform;
-    //RectTransform rectTransform;
-
-    Transform NPC_Head_Top;
-    Transform NPC_Head_Bottom;
+    RectTransform canvasRectTransform;  //the RectXform of the canvas
+    RectTransform TopPanelXform;//RectXform of the top dialog panel
+    RectTransform BottomPanelXform;//RectXform of the bottom dialog panel
+    Transform NPC_Head_Top; //transform of the NPC head end bone
+    Transform NPC_Head_Bottom;  //transform of the NPC neck bone
 
     // Start is called before the first frame update
     void Start()
     {
-        //get a reference to our RectTransform
-        //rectTransform = GetComponent<RectTransform>();
 
-        //get a reference to the canvas
+        //get a reference to the canvas RectXform.  We first search for the
+        //canvas in the dialog's parent.
         Canvas canvas = GetComponentInParent<Canvas>();
         canvasRectTransform = canvas.GetComponent<RectTransform>();
 
-        //get our parent's RectTransform
-        //parentRectTransform = GetComponentInParent<RectTransform>();
+        //get references to the top and bottom panel RectXforms
+        TopPanelXform = TopPanel.GetComponent<RectTransform>();
+        BottomPanelXform = BottomPanel.GetComponent<RectTransform>();
 
-
+        //if no camera is specified, default to the main camera
         if (camera1 == null)
         {
             camera1 = Camera.main;
         }
 
+        //find the head end bone and the neck bone of the NPC
         FindHeadBones(NPC_RootBone);
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        //we need to compute the position of the top and bottom pointers so that
+        //they appear to emerge from the top and bottom panels.  This is a multi-
+        //step process.
+
+        //1) compute the normalized canvas coordinates of the nech and head end bones
         Vector2 npc_head_top_pos = camera1.WorldToViewportPoint(NPC_Head_Top.position);
         Vector2 npc_head_bottom_pos = camera1.WorldToViewportPoint(NPC_Head_Bottom.position);
 
-        //perform a component-wise multiplication of the 2 Vector2s
+        //2) perform a component-wise multiplication with the canvas size vector to
+        //compute the pixel positions for the top and bottom pointers
         Vector2 TopPos = canvasRectTransform.rect.size * npc_head_top_pos;
         Vector2 BottomPos = canvasRectTransform.rect.size * npc_head_bottom_pos;
 
-        //Vector2 Pos = parentRectTransform.rect.size * npc_head_top_pos;
-        //Vector2 Pos = parentRectTransform.rect.size * npc_head_bottom_pos;
+        //3) set the start position (on the NPC) of the top and bottom pointers.
+        TopPointer.position = TopPos + 3 * Vector2.up;//scoot up 3 pixels (not sure why this is needed, but without it there is a gap between the dialog box and the pointer
+        BottomPointer.position = BottomPos - 3 * Vector2.up;//scoot down 3 pixels (not sure why this is needed, but without it there is a gap between the dialog box and the pointer
 
-        TopPointer.position = TopPos;
-        float TopHeight = (canvasRectTransform.rect.height - TopPanel.rect.height) - TopPos.y;
-        TopPointer.sizeDelta = new Vector2(TopPointer.sizeDelta.x, TopHeight );
+        //4) scale the pointers so that they exactly fill the space between the
+        //NPC's head and the top and bottom dialog panels.
+        float TopHeight = canvasRectTransform.rect.height - TopPanelXform.rect.height - TopPos.y;
+        TopPointer.sizeDelta = new Vector2(TopPointer.sizeDelta.x, TopHeight ); //only chage y
 
-        BottomPointer.position = BottomPos;
-        float BottomHeight = BottomPos.y - BottomPanel.rect.height;
-        BottomPointer.sizeDelta = new Vector2(BottomPointer.sizeDelta.x, BottomHeight);
+        float BottomHeight = BottomPos.y - BottomPanelXform.rect.height;
+        BottomPointer.sizeDelta = new Vector2(BottomPointer.sizeDelta.x, BottomHeight); //only change y
     }
 
+    /**
+     * ChatGPT assisted code to search for certain bones in a humanoid rig given
+     * the root bone.  In this case, we are searching for the head end bone
+     * (top of the head) and the neck bone (bottom of the head).  We assume that
+     * the names of these bones endswith "HEADTOP_END" and "NECK" respectively.
+     * If the search fails, NPC_Head_Top and/or NPC_Head_Bottom is set to null.
+     **/
     void FindHeadBones(Transform rootBone)
     {
         NPC_Head_Top = null;
         NPC_Head_Bottom = null;
 
+        //get all bones: these are all the children of the root bone
         Transform[] allBones = rootBone.GetComponentsInChildren<Transform>(); // Get all bones
 
+        //search each bone for a name match
         foreach (Transform bone in allBones)
         {
             if (bone.name.ToUpper().EndsWith("HEADTOP_END"))
