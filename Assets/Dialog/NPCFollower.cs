@@ -4,16 +4,44 @@ using UnityEngine;
 
 public class NPCFollower : MonoBehaviour
 {
+    public enum position {TOP, BOTTOM, AUTO};
+
     public Transform NPC_RootBone;  //the xform of the root bone of the NPC we will follow
     public Camera camera1 = null;   //the camera associated with the canvas;  null=autoselect
-    public GameObject TopPanel;     //RectXform of the top dialog panel
-    public GameObject BottomPanel;   //RectXform of the bottom dialog panel
+    public RectTransform TopPanel;     //RectXform of the top dialog panel
+    public RectTransform BottomPanel;   //RectXform of the bottom dialog panel
     public RectTransform TopPointer;    //RectXform of the pointer associated with the top dialog panel
     public RectTransform BottomPointer; //RectXform of the pointer associated with the bottom dialog panel
+    public position PanelLocation
+    {
+        get { return panelLocation; }
+        set
+        {
+            panelLocation = value;
+
+            switch (panelLocation)
+            {
+                case position.TOP:
+                    TopPanel.gameObject.SetActive(true);
+                    TopPointer.gameObject.SetActive(true);
+                    BottomPanel.gameObject.SetActive(false);
+                    BottomPointer.gameObject.SetActive(false);
+                    break;
+                case position.BOTTOM:
+                    TopPanel.gameObject.SetActive(false);
+                    TopPointer.gameObject.SetActive(false);
+                    BottomPanel.gameObject.SetActive(true);
+                    BottomPointer.gameObject.SetActive(true);
+                    break;
+                case position.AUTO:
+                    break;
+            }
+        }
+    }
+    position panelLocation = position.AUTO;
 
     RectTransform canvasRectTransform;  //the RectXform of the canvas
-    RectTransform TopPanelXform;//RectXform of the top dialog panel
-    RectTransform BottomPanelXform;//RectXform of the bottom dialog panel
+
     Transform NPC_Head_Top; //transform of the NPC head end bone
     Transform NPC_Head_Bottom;  //transform of the NPC neck bone
 
@@ -25,10 +53,6 @@ public class NPCFollower : MonoBehaviour
         //canvas in the dialog's parent.
         Canvas canvas = GetComponentInParent<Canvas>();
         canvasRectTransform = canvas.GetComponent<RectTransform>();
-
-        //get references to the top and bottom panel RectXforms
-        TopPanelXform = TopPanel.GetComponent<RectTransform>();
-        BottomPanelXform = BottomPanel.GetComponent<RectTransform>();
 
         //if no camera is specified, default to the main camera
         if (camera1 == null)
@@ -62,11 +86,30 @@ public class NPCFollower : MonoBehaviour
 
         //4) scale the pointers so that they exactly fill the space between the
         //NPC's head and the top and bottom dialog panels.
-        float TopHeight = canvasRectTransform.rect.height - TopPanelXform.rect.height - TopPos.y;
+        float TopHeight = canvasRectTransform.rect.height - TopPanel.rect.height - TopPos.y;
         TopPointer.sizeDelta = new Vector2(TopPointer.sizeDelta.x, TopHeight ); //only chage y
 
-        float BottomHeight = BottomPos.y - BottomPanelXform.rect.height;
+        float BottomHeight = BottomPos.y - BottomPanel.rect.height;
         BottomPointer.sizeDelta = new Vector2(BottomPointer.sizeDelta.x, BottomHeight); //only change y
+
+        //5) enable/disable panels as necessary
+        if (panelLocation == position.AUTO)
+        {
+            if (npc_head_top_pos.y + npc_head_bottom_pos.y < 1)
+            {
+                TopPanel.gameObject.SetActive(true);
+                TopPointer.gameObject.SetActive(true);
+                BottomPanel.gameObject.SetActive(false);
+                BottomPointer.gameObject.SetActive(false);
+            }
+            else
+            {
+                TopPanel.gameObject.SetActive(false);
+                TopPointer.gameObject.SetActive(false);
+                BottomPanel.gameObject.SetActive(true);
+                BottomPointer.gameObject.SetActive(true);
+            }
+        }
     }
 
     /**

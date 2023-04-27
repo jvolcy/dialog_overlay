@@ -16,14 +16,14 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AmyHeadT = FindHeadBone(AmyRootBone);
-        SpelmaniteHeadT = FindHeadBone(SpelmaniteRootBone);
-        MichelleHeadT = FindHeadBone(MichelleRootBone);
+        //AmyHeadT = FindHeadBone(AmyRootBone);
+        //SpelmaniteHeadT = FindHeadBone(SpelmaniteRootBone);
+        //MichelleHeadT = FindHeadBone(MichelleRootBone);
 
         //print the normalized screen position of the head xforms
-        Debug.Log("Michelle's head position = " + camera1.WorldToViewportPoint(MichelleHeadT.position));
-        Debug.Log("Amy's head position = " + camera1.WorldToViewportPoint(AmyHeadT.position));
-        Debug.Log("Spelmanite's head position = " + camera1.WorldToViewportPoint(SpelmaniteHeadT.position));
+        //Debug.Log("Michelle's head position = " + camera1.WorldToViewportPoint(MichelleHeadT.position));
+        //Debug.Log("Amy's head position = " + camera1.WorldToViewportPoint(AmyHeadT.position));
+        //Debug.Log("Spelmanite's head position = " + camera1.WorldToViewportPoint(SpelmaniteHeadT.position));
     }
 
     // Update is called once per frame
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-
+    /*
     Transform FindHeadBone(Transform rootBone)
     {
         Transform headBone = null;
@@ -54,4 +54,5 @@ public class GameManager : MonoBehaviour
 
 
     }
+    */
 }
