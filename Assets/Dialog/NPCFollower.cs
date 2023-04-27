@@ -6,11 +6,14 @@ public class NPCFollower : MonoBehaviour
 {
     public Transform NPC_RootBone;
     public Camera camera1 = null;
-    bool bottom = false;
+    public RectTransform TopPanel;
+    public RectTransform BottomPanel;
+    public RectTransform TopPointer;
+    public RectTransform BottomPointer;
 
     RectTransform canvasRectTransform;
     //RectTransform parentRectTransform;
-    RectTransform rectTransform;
+    //RectTransform rectTransform;
 
     Transform NPC_Head_Top;
     Transform NPC_Head_Bottom;
@@ -19,7 +22,7 @@ public class NPCFollower : MonoBehaviour
     void Start()
     {
         //get a reference to our RectTransform
-        rectTransform = GetComponent<RectTransform>();
+        //rectTransform = GetComponent<RectTransform>();
 
         //get a reference to the canvas
         Canvas canvas = GetComponentInParent<Canvas>();
@@ -41,11 +44,23 @@ public class NPCFollower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 npc_pos = camera1.WorldToViewportPoint(NPC_Head_Top.position);
+        Vector2 npc_head_top_pos = camera1.WorldToViewportPoint(NPC_Head_Top.position);
+        Vector2 npc_head_bottom_pos = camera1.WorldToViewportPoint(NPC_Head_Bottom.position);
+
         //perform a component-wise multiplication of the 2 Vector2s
-        Vector2 Pos = canvasRectTransform.rect.size * npc_pos;
-        //Vector2 Pos = parentRectTransform.rect.size * npc_pos;
-        rectTransform.position = Pos;
+        Vector2 TopPos = canvasRectTransform.rect.size * npc_head_top_pos;
+        Vector2 BottomPos = canvasRectTransform.rect.size * npc_head_bottom_pos;
+
+        //Vector2 Pos = parentRectTransform.rect.size * npc_head_top_pos;
+        //Vector2 Pos = parentRectTransform.rect.size * npc_head_bottom_pos;
+
+        TopPointer.position = TopPos;
+        float TopHeight = (canvasRectTransform.rect.height - TopPanel.rect.height) - TopPos.y;
+        TopPointer.sizeDelta = new Vector2(TopPointer.sizeDelta.x, TopHeight );
+
+        BottomPointer.position = BottomPos;
+        float BottomHeight = BottomPos.y - BottomPanel.rect.height;
+        BottomPointer.sizeDelta = new Vector2(BottomPointer.sizeDelta.x, BottomHeight);
     }
 
     void FindHeadBones(Transform rootBone)
