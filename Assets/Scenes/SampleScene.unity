@@ -3375,7 +3375,7 @@ GameObject:
   - component: {fileID: 409189680}
   - component: {fileID: 409189679}
   m_Layer: 5
-  m_Name: bottomPointer
+  m_Name: bottomTail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3504,7 +3504,7 @@ GameObject:
   - component: {fileID: 548614741}
   - component: {fileID: 548614740}
   m_Layer: 5
-  m_Name: topPointer
+  m_Name: topTail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4064,7 +4064,7 @@ GameObject:
   - component: {fileID: 1363450972}
   - component: {fileID: 1363450971}
   m_Layer: 5
-  m_Name: dialog
+  m_Name: UICaption
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4101,16 +4101,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1363450969}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffd6ea837ab5e45e5b9f6e2e41d80dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 95a1884a856b646a4883d55ecd6a72b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   camera1: {fileID: 0}
   TopPanel: {fileID: 280023872}
   BottomPanel: {fileID: 989682721}
-  TopPointer: {fileID: 548614738}
-  BottomPointer: {fileID: 409189678}
+  TopTail: {fileID: 548614738}
+  BottomTail: {fileID: 409189678}
   autoPlacementUpperTriggerPoint: 0.51
   autoPlacementLowerTriggerPoint: 0.49
 --- !u!114 &1363450972
@@ -4120,9 +4120,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1363450969}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54f8db80c96bb41b59fce6c7ad340669, type: 3}
+  m_Script: {fileID: 11500000, guid: 2fbdb0a35437d41f1b35d8507ac0e5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   NPC_RootBone: {fileID: 1442522362}

@@ -8,8 +8,8 @@ using TMPro;
  * including color, font, position, etc. are updated when the Text field is
  * set.
  **/
-//[RequireComponent(typeof(NPCFollower))]
-public class Dialog : MonoBehaviour
+[RequireComponent(typeof(CaptionTail))]
+public class UICaption : MonoBehaviour
 {
     [Header("Main")]
     [Tooltip("The Transform of the root bone of the NPC we will follow.  " +
@@ -18,7 +18,7 @@ public class Dialog : MonoBehaviour
 
     [Tooltip("Specify the location of the dialog panel.  AUTO lets the " +
 "system decide based on the position of the NPC on the screen.")]
-    public NPCFollower.position PanelLocation = NPCFollower.position.AUTO;
+    public CaptionTail.position PanelLocation = CaptionTail.position.AUTO;
 
     [Tooltip("The point on the screen where we switch from bottom to top " +
     "panel when in AUTO mode.  50% is the middle of the screen.  0% is the " +
@@ -55,12 +55,12 @@ public class Dialog : MonoBehaviour
     public Color textColor;
 
     //[Header("Panels")]
-    NPCFollower npcFollower;
+    CaptionTail captionTail;
 
     GameObject TopPanel;
     GameObject BottomPanel;
-    GameObject TopPointer;
-    GameObject BottomPointer;
+    GameObject TopTail;
+    GameObject BottomTail;
 
     TMP_Text TopPanelText;
     TMP_Text BottomPanelText;
@@ -70,21 +70,21 @@ public class Dialog : MonoBehaviour
     void Start()
     {
         //get a reference to the required NPCFollower component
-        npcFollower = GetComponent<NPCFollower>();
+        captionTail = GetComponent<CaptionTail>();
 
         //get a reference to the top and bottom panel GOs
-        TopPanel = npcFollower.TopPanel.gameObject;
-        BottomPanel = npcFollower.BottomPanel.gameObject;
+        TopPanel = captionTail.TopPanel.gameObject;
+        BottomPanel = captionTail.BottomPanel.gameObject;
 
-        //get a reference to the top and bottom pointer GOs
-        TopPointer = npcFollower.TopPointer.gameObject;
-        BottomPointer = npcFollower.BottomPointer.gameObject;
+        //get a reference to the top and bottom caption tail GOs
+        TopTail = captionTail.TopTail.gameObject;
+        BottomTail = captionTail.BottomTail.gameObject;
 
         //get references to the panel TMP_Text components
         TopPanelText = TopPanel.GetComponentInChildren<TMP_Text>();
         BottomPanelText = BottomPanel.GetComponentInChildren<TMP_Text>();
 
-        Text = "Hello World!";
+        Text = "Hello World!!";
     }
 
     // Update is called once per frame
@@ -104,20 +104,20 @@ public class Dialog : MonoBehaviour
         TopPanel.GetComponent<Image>().color = backgroundColor;
         BottomPanel.GetComponent<Image>().color = backgroundColor;
 
-        //set the pointer background colors
-        TopPointer.GetComponent<Image>().color = backgroundColor;
-        BottomPointer.GetComponent<Image>().color = backgroundColor;
+        //set the caption tail background colors
+        TopTail.GetComponent<Image>().color = backgroundColor;
+        BottomTail.GetComponent<Image>().color = backgroundColor;
 
         //set the text color
         TopPanelText.color = textColor;
         BottomPanelText.color = textColor;
 
         //specify the follower panel location
-        npcFollower.PanelLocation = PanelLocation;
-        npcFollower.autoPlacementUpperTriggerPoint = autoPlacementUpperTriggerPoint;
-        npcFollower.autoPlacementLowerTriggerPoint = autoPlacementLowerTriggerPoint;
+        captionTail.PanelLocation = PanelLocation;
+        captionTail.autoPlacementUpperTriggerPoint = autoPlacementUpperTriggerPoint;
+        captionTail.autoPlacementLowerTriggerPoint = autoPlacementLowerTriggerPoint;
 
         //specify the NPC root bone
-        npcFollower.NPC_RootBone = NPC_RootBone;
+        captionTail.NPC_RootBone = NPC_RootBone;
     }
 }
