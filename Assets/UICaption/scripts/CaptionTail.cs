@@ -28,17 +28,17 @@ public class CaptionTail : MonoBehaviour
 
     [Header("Panels")]
     [Tooltip("Reference to the top panel object.  Do not edit.")]
-    public RectTransform TopPanel;     //RectXform of the top dialog panel
+    public RectTransform TopPanel;     //RectXform of the top UICaption panel
     [Tooltip("Reference to bottom top panel object.  Do not edit.")]
-    public RectTransform BottomPanel;   //RectXform of the bottom dialog panel
+    public RectTransform BottomPanel;   //RectXform of the bottom UICaption panel
     [Tooltip("Reference to the top caption tail object.  Do not edit.")]
-    public RectTransform TopTail;    //RectXform of the caption tail associated with the top dialog panel
+    public RectTransform TopTail;    //RectXform of the caption tail associated with the top UICaption panel
     [Tooltip("Reference to bottom caption tail object.  Do not edit.")]
-    public RectTransform BottomTail; //RectXform of the caption tail associated with the bottom dialog panel
+    public RectTransform BottomTail; //RectXform of the caption tail associated with the bottom UICaption panel
 
-    [Tooltip("Specify the location of the dialog panel.  AUTO lets the " +
+    [Tooltip("Specify the location of the UICaption panel.  AUTO lets the " +
 "system decide based on the position of the NPC on the screen.")]
-    //property to specify the location of the dialog panel.  AUTO lets the
+    //property to specify the location of the UICaption panel.  AUTO lets the
     //system decide based on the position of the NPC on the screen.
     public position PanelLocation
     {
@@ -99,7 +99,7 @@ public class CaptionTail : MonoBehaviour
     {
 
         //get a reference to the canvas RectXform.  We first search for the
-        //canvas in the dialog's parent.
+        //canvas in the UICaption's parent.
         Canvas canvas = GetComponentInParent<Canvas>();
         canvasRectTransform = canvas.GetComponent<RectTransform>();
 
@@ -130,11 +130,11 @@ public class CaptionTail : MonoBehaviour
         Vector2 BottomPos = canvasRectTransform.rect.size * npc_head_bottom_pos;
 
         //3) set the start position (on the NPC) of the top and bottom caption tails.
-        TopTail.position = TopPos + Vector2.up;//scoot up 1 pixel (not sure why this is needed, but without it there is a gap between the dialog box and the tail.  May be a rounding error in the math.)
-        BottomTail.position = BottomPos - Vector2.up;//scoot down 1 pixel (not sure why this is needed, but without it there is a gap between the dialog box and the tail.  May be a rounding error in the math.)
+        TopTail.position = TopPos + Vector2.up;//scoot up 1 pixel (not sure why this is needed, but without it there is a gap between the UICaption panel and the tail.  May be a rounding error in the math.)
+        BottomTail.position = BottomPos - Vector2.up;//scoot down 1 pixel (not sure why this is needed, but without it there is a gap between the UICaption panel and the tail.  May be a rounding error in the math.)
 
         //4) scale the caption tails so that they exactly fill the space between the
-        //NPC's head and the top and bottom dialog panels.
+        //NPC's head and the top and bottom UICaption panels.
         float TopHeight = canvasRectTransform.rect.height - TopPanel.rect.height - TopPos.y;
         TopTail.sizeDelta = new Vector2(TopTail.sizeDelta.x, TopHeight ); //only chage y
 
@@ -174,7 +174,7 @@ public class CaptionTail : MonoBehaviour
      * If the search fails, the function returns null.  Otherwise, the transform
      * of the matched bone is returned.
      **/
-    Transform FindBoneWithNameSuffix(Transform rootBone, string suffix)
+    Transform FindBoneWithNameSuffix(Transform rootBone, string nameSuffix)
     {
         //get all bones: these are all the children of the root bone
         Transform[] allBones = rootBone.GetComponentsInChildren<Transform>(); // Get all bones
@@ -182,7 +182,7 @@ public class CaptionTail : MonoBehaviour
         //search each bone for a name match
         foreach (Transform bone in allBones)
         {
-            if (bone.name.ToUpper().EndsWith(suffix))
+            if (bone.name.ToUpper().EndsWith(nameSuffix))
             {
                 Debug.Log("Found bone: " + bone.name);
                 return bone; // Found the head bone
