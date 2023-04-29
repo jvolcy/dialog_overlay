@@ -3359,7 +3359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 299941663902631162, guid: 06fa8d2d63b8240aab84eca8a570584d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5966918
+      value: 2.611
       objectReference: {fileID: 0}
     - target: {fileID: 299941663902631162, guid: 06fa8d2d63b8240aab84eca8a570584d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3367,7 +3367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 299941663902631162, guid: 06fa8d2d63b8240aab84eca8a570584d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.051171303
+      value: 1.205
       objectReference: {fileID: 0}
     - target: {fileID: 299941663902631162, guid: 06fa8d2d63b8240aab84eca8a570584d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3401,10 +3401,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spelmanite
       objectReference: {fileID: 0}
-    - target: {fileID: 5965501002734657152, guid: 06fa8d2d63b8240aab84eca8a570584d, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: f61280503b21e4a869723ad42cb941f3, type: 2}
     m_RemovedComponents:
     - {fileID: 262090757790032877, guid: 06fa8d2d63b8240aab84eca8a570584d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 06fa8d2d63b8240aab84eca8a570584d, type: 3}
@@ -3495,6 +3491,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 999c22a8478be47eaa5ac40bf61d2b8c, type: 2}
+    - target: {fileID: 6829485909940997511, guid: 66054f716a6c945c6a45ee4c55d0b178, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7193549048941659415, guid: 66054f716a6c945c6a45ee4c55d0b178, type: 3}
       propertyPath: m_IsActive
       value: 1

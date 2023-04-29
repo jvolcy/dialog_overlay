@@ -247,100 +247,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.034416486, y: 0.11053534, z: -0.58653706}
     m_Extent: {x: 0.021567117, y: 0.012053832, z: 0.02227074}
   m_DirtyAABB: 0
---- !u!1 &262090756569057767
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 262090756569057766}
-  - component: {fileID: 262090756569057785}
-  m_Layer: 0
-  m_Name: Directional Light (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &262090756569057766
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262090756569057767}
-  m_LocalRotation: {x: 0.009344949, y: -0.98605514, z: 0.16598956, w: -0.007444619}
-  m_LocalPosition: {x: 0.06801802, y: 2.2479992, z: 2.2640145}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 299941663902631162}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 19.1, y: 89.63, z: -1.267}
---- !u!108 &262090756569057785
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262090756569057767}
-  m_Enabled: 1
-  serializedVersion: 10
-  m_Type: 0
-  m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 7.88
-  m_Range: 3
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 1
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
 --- !u!1 &262090757300060951
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,7 +897,6 @@ GameObject:
   - component: {fileID: 5965501002734657152}
   - component: {fileID: 262090757790032876}
   - component: {fileID: 262090757790032663}
-  - component: {fileID: 262090757790032877}
   m_Layer: 0
   m_Name: Spelmanite
   m_TagString: Untagged
@@ -1021,7 +926,6 @@ Transform:
   - {fileID: 3862055376486170690}
   - {fileID: 1289644896019685831}
   - {fileID: 3064844278638115264}
-  - {fileID: 262090756569057766}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 270.708, z: 0}
@@ -1035,7 +939,7 @@ Animator:
   m_GameObject: {fileID: 1108531979041758784}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 04923cddbf4344636887b75dea9def2f, type: 3}
-  m_Controller: {fileID: 9100000, guid: edb41acde75ec4d3c815456043e5a64b, type: 2}
+  m_Controller: {fileID: 9100000, guid: f61280503b21e4a869723ad42cb941f3, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -1055,10 +959,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.98089325
-  m_Height: 2.1984978
+  m_Radius: 0.24067974
+  m_Height: 1.8404353
   m_Direction: 1
-  m_Center: {x: -0.3938692, y: 0.91294575, z: 0.1296016}
+  m_Center: {x: -0.028405609, y: 0.90810716, z: 0.022978455}
 --- !u!114 &262090757790032663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1076,18 +980,6 @@ MonoBehaviour:
   LeftEye: {fileID: 2929296817705613365}
   RightEye: {fileID: 249972998857269752}
   EyeLidMaterial: {fileID: 2100000, guid: 93a32d88b7379474ca1a0635a3696c5e, type: 2}
---- !u!114 &262090757790032877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1108531979041758784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a5f2fbb9a6af459bb5b51eaffc6bd2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1164723791724400785
 GameObject:
   m_ObjectHideFlags: 0

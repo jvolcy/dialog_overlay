@@ -98,14 +98,17 @@ public class UICaption : MonoBehaviour
         //Text = "The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.";
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void SetText(string Txt, float duration = -1, System.Action<string> callback = null)
     {
-        
+        //duration = 0 --> return right away
+        //duration < 0 --> infinity
+
+        text = Txt;
+        StartCoroutine(UpdateDialog(duration, callback));
     }
 
-
-    IEnumerator UpdateDialog()
+    IEnumerator UpdateDialog(float duration = -1, System.Action<string> callback = null)
     {
         //set the panel background colors
         TopPanel.GetComponent<Image>().color = backgroundColor;
@@ -216,6 +219,23 @@ public class UICaption : MonoBehaviour
             }
 
         }
+
+        if (duration < 0)
+        {
+            //infinite duration (no callback)
+            yield break;
+        }
+        else if (duration > 0)
+        {
+            yield return new WaitForSeconds(duration);
+            //TopRT.sizeDelta = new Vector2(TopRT.sizeDelta.x, 0);
+            //BottomRT.sizeDelta = new Vector2(BottomRT.sizeDelta.x, 0);
+            //TopTail.SetActive(false);
+            //BottomTail.SetActive(false);
+            SetText("");
+        }
+
+        callback?.Invoke(text);
     }
 
 
