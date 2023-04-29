@@ -14,7 +14,7 @@ public class UICaption : MonoBehaviour
     [Header("Appearance")]
     public Color backgroundColor;
     public Color textColor;
-    int fontSize = 20;
+    public int fontSize = 20;
   
     //[Tooltip("Height of the window in terms of % of viewport height.")]
     //[Range(0f, 1f)]
@@ -57,12 +57,11 @@ public class UICaption : MonoBehaviour
         set
         {
             text = value;
-            UpdateDialog();
+            StartCoroutine(UpdateDialog());
         }
     }
     
     string text = "";   //backing field for Text property
-
 
 
     //[Header("Panels")]
@@ -105,12 +104,8 @@ public class UICaption : MonoBehaviour
     }
 
 
-    void UpdateDialog()
+    IEnumerator UpdateDialog()
     {
-        //set the panel texts
-        TopPanelText.text = text;
-        BottomPanelText.text = text;
-
         //set the panel background colors
         TopPanel.GetComponent<Image>().color = backgroundColor;
         BottomPanel.GetComponent<Image>().color = backgroundColor;
@@ -123,8 +118,39 @@ public class UICaption : MonoBehaviour
         TopPanelText.fontSize = fontSize;
         BottomPanelText.fontSize = fontSize;
 
-        TopPanelText.maxVisibleLines = 5;
+        //set the panel texts
+        //we want to add a line before and after the text as padding in the
+        //panel.  Unfortunately, simply adding a "\n" before and after the
+        //text [as in TopPanelText.text = "\n" + text + "\n" ] doesn't work
+        //because the TMP object strips the newline when computing the bounds.
+        //Instead, we will create a modified string for computing the bounds,
+        //then assign the desired string in the next frame.
+        //(TMP = TextMeshPro)
 
+        //Create a string with a line above and below the provided text.
+        //The \n chars in this string won't be stripped off.
+        TopPanelText.text = ".\n" + text + "\n.";
+
+        //now, pause until the next frame to allow the TopPanelText TMP to update
+        yield return null;  //pause until the next frame
+
+        //we can now compute the size of the updated TMP
+        float boundsYSize = TopPanelText.textBounds.size.y; //computer the y size
+
+        //TOP Panel
+        //set the panel text & height
+        TopPanelText.text = text; //set the top panel text
+        RectTransform TopRT = TopPanel.GetComponent<RectTransform>();
+        TopRT.sizeDelta = new Vector2(TopRT.sizeDelta.x, boundsYSize);
+
+        //BOTTOM Panel
+        //set the panel text & height
+        BottomPanelText.text = text;    //set the bottom panel text
+        RectTransform BottomRT = BottomPanel.GetComponent<RectTransform>();
+        BottomRT.sizeDelta = new Vector2(BottomRT.sizeDelta.x, boundsYSize);
+
+
+        //add the tails, if requested
         if (hasTail)
         {
             //in this case, we will deletage the enabling/disabling of
@@ -166,6 +192,10 @@ public class UICaption : MonoBehaviour
                     TopPanel.SetActive(false);
                     BottomPanel.SetActive(true);
                     break;
+                case CaptionTail.position.BOTH:
+                    TopPanel.SetActive(true);
+                    BottomPanel.SetActive(true);
+                    break;
                 default:
                     Debug.Log(" Caption position of AUTO not a valid option for a tailless caption.  Defaulting to TOP placement.");
                     TopPanel.SetActive(true);
@@ -175,4 +205,6 @@ public class UICaption : MonoBehaviour
 
         }
     }
+
+
 }

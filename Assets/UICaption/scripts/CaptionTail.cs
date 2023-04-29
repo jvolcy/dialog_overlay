@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CaptionTail : MonoBehaviour
 {
-    public enum position {TOP, BOTTOM, AUTO};
+    public enum position {TOP, BOTTOM, BOTH, AUTO};
 
     //[Header("NPC and Camera")]
 
@@ -22,9 +22,8 @@ public class CaptionTail : MonoBehaviour
     }
 
     [Tooltip("The camera associated with the UI Canvas.  Leave blank to autoselect.")]
-    public Camera camera1 = null;   //the camera associated with the canvas;  null=autoselect
+    public Camera camera1 = null;   //the camera associated with the canvas;
 
-    
 
     [Header("Panels")]
     [Tooltip("Reference to the top panel object.  Do not edit.")]
@@ -63,6 +62,12 @@ public class CaptionTail : MonoBehaviour
                     BottomPanel.gameObject.SetActive(true);
                     BottomTail.gameObject.SetActive(true);
                     break;
+                case position.BOTH:
+                    //enable both top and bottom panels and tails
+                    TopPanel.gameObject.SetActive(true);
+                    TopTail.gameObject.SetActive(true);
+                    BottomPanel.gameObject.SetActive(true);
+                    BottomTail.gameObject.SetActive(true); break;
                 case position.AUTO:
                     //the syste will decide which panel to enable/disable
                     break;
@@ -108,9 +113,6 @@ public class CaptionTail : MonoBehaviour
         {
             camera1 = Camera.main;
         }
-
-        //find the head end bone and the neck bone of the NPC
-        //FindHeadBones(NPC_RootBone);
     }
 
     // Update is called once per frame
@@ -120,7 +122,7 @@ public class CaptionTail : MonoBehaviour
         //they appear to emerge from the top and bottom panels.  This is a multi-
         //step process.
 
-        //1) compute the normalized canvas coordinates of the nech and head end bones
+        //1) compute the normalized canvas coordinates of the neck and head end bones
         Vector2 npc_head_top_pos = camera1.WorldToViewportPoint(NPC_Head_Top.position);
         Vector2 npc_head_bottom_pos = camera1.WorldToViewportPoint(NPC_Head_Bottom.position);
 

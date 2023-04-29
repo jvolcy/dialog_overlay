@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            uiCaption.Text = "Hello " + i.ToString();
+            uiCaption.Text = "Hello\n" + i.ToString();
             i++;
         }
     }
