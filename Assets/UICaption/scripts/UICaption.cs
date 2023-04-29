@@ -79,7 +79,7 @@ public class UICaption : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //get a reference to the required NPCFollower component
+        //get a reference to the required CaptionTail component
         captionTail = GetComponent<CaptionTail>();
 
         //get a reference to the top and bottom panel GOs
@@ -94,7 +94,8 @@ public class UICaption : MonoBehaviour
         TopPanelText = TopPanel.GetComponentInChildren<TMP_Text>();
         BottomPanelText = BottomPanel.GetComponentInChildren<TMP_Text>();
 
-        Text = "Hello World!!";
+        Text = "";
+        //Text = "The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.";
     }
 
     // Update is called once per frame
@@ -119,23 +120,34 @@ public class UICaption : MonoBehaviour
         BottomPanelText.fontSize = fontSize;
 
         //set the panel texts
-        //we want to add a line before and after the text as padding in the
-        //panel.  Unfortunately, simply adding a "\n" before and after the
-        //text [as in TopPanelText.text = "\n" + text + "\n" ] doesn't work
-        //because the TMP object strips the newline when computing the bounds.
-        //Instead, we will create a modified string for computing the bounds,
-        //then assign the desired string in the next frame.
-        //(TMP = TextMeshPro)
 
-        //Create a string with a line above and below the provided text.
-        //The \n chars in this string won't be stripped off.
-        TopPanelText.text = ".\n" + text + "\n.";
+        float boundsYSize;
 
-        //now, pause until the next frame to allow the TopPanelText TMP to update
-        yield return null;  //pause until the next frame
+        if (text == "")
+        {
+            //if there is no text, set the y size to 0
+            boundsYSize = 0;
+        }
+        else
+        {
+            //we want to add a line before and after the text as padding in the
+            //panel.  Unfortunately, simply adding a "\n" before and after the
+            //text [as in TopPanelText.text = "\n" + text + "\n" ] doesn't work
+            //because the TMP object strips the newline when computing the bounds.
+            //Instead, we will create a modified string for computing the bounds,
+            //then assign the desired string in the next frame.
+            //(TMP = TextMeshPro)
 
-        //we can now compute the size of the updated TMP
-        float boundsYSize = TopPanelText.textBounds.size.y; //computer the y size
+            //Create a string with a line above and below the provided text.
+            //The \n chars in this string won't be stripped off.
+            TopPanelText.text = ".\n" + text + "\n.";
+
+            //now, pause until the next frame to allow the TopPanelText TMP to update
+            yield return null;  //pause until the next frame
+
+            //we can now compute the size of the updated TMP
+            boundsYSize = TopPanelText.textBounds.size.y; //computer the y size
+        }
 
         //TOP Panel
         //set the panel text & height
@@ -150,8 +162,8 @@ public class UICaption : MonoBehaviour
         BottomRT.sizeDelta = new Vector2(BottomRT.sizeDelta.x, boundsYSize);
 
 
-        //add the tails, if requested
-        if (hasTail)
+        //add the tails, if requested and necessary
+        if (hasTail && text != "")
         {
             //in this case, we will deletage the enabling/disabling of
             //the caption panels to the CaptionTail object.

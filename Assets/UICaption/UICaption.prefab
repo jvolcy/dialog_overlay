@@ -56,6 +56,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundColor: {r: 0, g: 0, b: 0, a: 0.39215687}
   textColor: {r: 0.9962587, g: 1, b: 0.4764151, a: 1}
+  fontSize: 20
   hasTail: 1
   NPC_RootBone: {fileID: 0}
   PanelLocation: 2
@@ -107,7 +108,7 @@ RectTransform:
   m_GameObject: {fileID: 1655021495801597567}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.96, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1655021496807226342}
@@ -242,7 +243,7 @@ RectTransform:
   m_GameObject: {fileID: 1655021496137149409}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.96, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1655021497239598215}
@@ -385,7 +386,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 473}
+  m_AnchoredPosition: {x: 0, y: 428.7}
   m_SizeDelta: {x: 100, y: 180}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &1655021496659547542
@@ -538,7 +539,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 577}
+  m_AnchoredPosition: {x: 0, y: 917.3}
   m_SizeDelta: {x: 100, y: 180}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &1655021497075866355

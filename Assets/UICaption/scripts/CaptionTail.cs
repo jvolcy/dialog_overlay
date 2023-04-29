@@ -104,7 +104,7 @@ public class CaptionTail : MonoBehaviour
     {
 
         //get a reference to the canvas RectXform.  We first search for the
-        //canvas in the UICaption's parent.
+        //canvas in the UICaptionTail's parent.
         Canvas canvas = GetComponentInParent<Canvas>();
         canvasRectTransform = canvas.GetComponent<RectTransform>();
 

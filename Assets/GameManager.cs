@@ -19,8 +19,13 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            uiCaption.Text = "Hello\n" + i.ToString();
+            uiCaption.Text = "The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog. " + i.ToString();
             i++;
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            uiCaption.Text = "";
         }
     }
 
