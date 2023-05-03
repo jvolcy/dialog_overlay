@@ -10,14 +10,30 @@ public class CaptionTail : MonoBehaviour
 
     [Tooltip("The Transform of the root bone of the NPC we will follow.  " +
         "This is often called \"Hips\" or \"Armature\".")]
-    //the xform of the root bone of the NPC we will follow
+    //the xform of the root bone of the NPC we will follow.  The top and bottom
+    //tail bones are automatically detected by searching the bone heirearchy
+    //starting from the root bone.  Alternatively, use the SetTopCaptionTailBone()
+    //SetBottomCaptionTailBone() functions and eliminate this search entirely.
     public Transform NPC_RootBone
     {
-        //find the head end bone and the neck bone of the NPC once the root bone is assigned
+        //find the top and bottom caption tail follower bones of the NPC once the root bone is assigned
         set
         {
-            NPC_Head_Top = FindBoneWithNameSuffix(value, "HEADTOP_END");
-            NPC_Head_Bottom = FindBoneWithNameSuffix(value, "NECK");
+            NPC_TopBone = FindBoneWithNameSuffix(value, "HEADTOP_END");
+            if (NPC_TopBone == null)
+            {
+                Debug.Log("Did not find HeadTop_End bone.... using " + value.name);
+                //if we didn't find headtop_end bone, use the root bone
+                NPC_TopBone = value;
+            }
+
+            NPC_BottomBone = FindBoneWithNameSuffix(value, "NECK");
+            if (NPC_BottomBone == null)
+            {
+                Debug.Log("Did not find Neck bone.... using " + value.name);
+                //if we didn't find neck bone, use the root bone
+                NPC_BottomBone = value;
+            }
         }
     }
 
@@ -96,8 +112,8 @@ public class CaptionTail : MonoBehaviour
 
     RectTransform canvasRectTransform;  //the RectXform of the canvas
 
-    Transform NPC_Head_Top = null; //transform of the NPC head end bone
-    Transform NPC_Head_Bottom = null;  //transform of the NPC neck bone
+    Transform NPC_TopBone = null; //transform of the NPC top follower bone
+    Transform NPC_BottomBone = null;  //transform of the bottom follower bone
 
     // Start is called before the first frame update
     void Start()
@@ -122,21 +138,21 @@ public class CaptionTail : MonoBehaviour
         //they appear to emerge from the top and bottom panels.  This is a multi-
         //step process.
 
-        //1) compute the normalized canvas coordinates of the neck and head end bones
-        Vector2 npc_head_top_pos = camera1.WorldToViewportPoint(NPC_Head_Top.position);
-        Vector2 npc_head_bottom_pos = camera1.WorldToViewportPoint(NPC_Head_Bottom.position);
+        //1) compute the normalized canvas coordinates of the top and bottom caption follower bones
+        Vector2 npc_top_bone_pos = camera1.WorldToViewportPoint(NPC_TopBone.position);
+        Vector2 npc_bottom_bone_pos = camera1.WorldToViewportPoint(NPC_BottomBone.position);
 
         //2) perform a component-wise multiplication with the canvas size vector to
         //compute the pixel positions for the top and bottom caption tails
-        Vector2 TopPos = canvasRectTransform.rect.size * npc_head_top_pos;
-        Vector2 BottomPos = canvasRectTransform.rect.size * npc_head_bottom_pos;
+        Vector2 TopPos = canvasRectTransform.rect.size * npc_top_bone_pos;
+        Vector2 BottomPos = canvasRectTransform.rect.size * npc_bottom_bone_pos;
 
         //3) set the start position (on the NPC) of the top and bottom caption tails.
         TopTail.position = TopPos + Vector2.up;//scoot up 1 pixel (not sure why this is needed, but without it there is a gap between the UICaption panel and the tail.  May be a rounding error in the math.)
         BottomTail.position = BottomPos - Vector2.up;//scoot down 1 pixel (not sure why this is needed, but without it there is a gap between the UICaption panel and the tail.  May be a rounding error in the math.)
 
         //4) scale the caption tails so that they exactly fill the space between the
-        //NPC's head and the top and bottom UICaption panels.
+        //NPC and the top and bottom UICaption panels.
         float TopHeight = canvasRectTransform.rect.height - TopPanel.rect.height - TopPos.y;
         TopTail.sizeDelta = new Vector2(TopTail.sizeDelta.x, TopHeight ); //only chage y
 
@@ -147,7 +163,7 @@ public class CaptionTail : MonoBehaviour
         if (panelLocation == position.AUTO)
         {
             //switch to top panel
-            if ( (npc_head_top_pos.y + npc_head_bottom_pos.y) /2  > autoPlacementUpperTriggerPoint)
+            if ( (npc_top_bone_pos.y + npc_bottom_bone_pos.y) /2  > autoPlacementUpperTriggerPoint)
             {
                 TopPanel.gameObject.SetActive(true);
                 TopTail.gameObject.SetActive(true);
@@ -156,7 +172,7 @@ public class CaptionTail : MonoBehaviour
             }
 
             //swith to bottom panel
-            if ((npc_head_top_pos.y + npc_head_bottom_pos.y) / 2 < autoPlacementLowerTriggerPoint)
+            if ((npc_top_bone_pos.y + npc_bottom_bone_pos.y) / 2 < autoPlacementLowerTriggerPoint)
             {
                 TopPanel.gameObject.SetActive(false);
                 TopTail.gameObject.SetActive(false);
@@ -187,9 +203,27 @@ public class CaptionTail : MonoBehaviour
             if (bone.name.ToUpper().EndsWith(nameSuffix))
             {
                 Debug.Log("Found bone: " + bone.name);
-                return bone; // Found the head bone
+                return bone; // Found a bone with a matching suffix
             }
         }
         return null;
     }
+
+
+    /**
+     * SetCaptionTailBones()
+     * Rather than searching for the top and bottom caption tail follower bones
+     * using the FindBoneWithNameSuffix() function, the caption tail follow bones
+     * may be explicitly set with this function.  This eliminates the overhead
+     * of searching the bone heirearchy.  This overhead becomes significant
+     * when a single UICaption is used with multiple NPCs.  In such a case,
+     * the follower bone needs to be switched from NPC to NPC every time
+     * the dialog switches owner.
+    * **/
+    public void SetCaptionTailBones(Transform TopCaptionBone, Transform BottomCaptionBone)
+    {
+        NPC_TopBone = TopCaptionBone;
+        NPC_BottomBone = BottomCaptionBone;
+    }
+
 }

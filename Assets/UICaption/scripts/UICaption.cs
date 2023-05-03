@@ -4,6 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/**
+ * You may instantiate one UICaption prefab on your camvas for each NPC or
+ * you may instantiate a single UICaption object shared by all NPCs.  In the
+ * latter case, simply switch the NPC_RootBone  for the different characters.
+ * There is significant overhead in doing so, however as the search for the 
+ * top and bottom caption tail follower bones ("headtop_end" and "neck") is
+ * repeated everytime we switch NPCs. (the cost can be reduced by specifying the
+ * rig neck bone as the root bone, greatly reducing the search).  Altenratively,
+ * use the SetTopCaptionTailBone() and SetBottomCaptionTailBone() functions to 
+ * specify the top and bottom cpation tail follower bones.  This option 
+ * eliminates the search entirely.
+ * A "Character" class can be created that manages the switching of captions 
+ * between characters.  Such a class could permit differnt characters to use 
+ * different color dialogs, different fonts, different tail follower bones, etc.
+ * **/
+
+
 /** class that implements NPC dialogs on screen.  Attributes of the dialog
  * including color, font, position, etc. are updated when the Text field is
  * set.
@@ -14,7 +31,7 @@ public class UICaption : MonoBehaviour
     [Header("Appearance")]
     public Color backgroundColor;
     public Color textColor;
-    public int fontSize = 20;
+    public float fontSize = 20f;
   
     //[Tooltip("Height of the window in terms of % of viewport height.")]
     //[Range(0f, 1f)]
@@ -228,15 +245,26 @@ public class UICaption : MonoBehaviour
         else if (duration > 0)
         {
             yield return new WaitForSeconds(duration);
-            //TopRT.sizeDelta = new Vector2(TopRT.sizeDelta.x, 0);
-            //BottomRT.sizeDelta = new Vector2(BottomRT.sizeDelta.x, 0);
-            //TopTail.SetActive(false);
-            //BottomTail.SetActive(false);
-            SetText("");
-        }
 
+        }
         callback?.Invoke(text);
+
+        SetText("");
     }
 
+    /**
+     * SetCaptionTailBones()
+     * Rather than searching for the top and bottom caption tail follower bones
+     * using the FindBoneWithNameSuffix() function, the caption tail follow bones
+     * may be explicitly set with this function.  This eliminates the overhead
+     * of searching the bone heirearchy.  This overhead becomes significant
+     * when a single UICaption is used with multiple NPCs.  In such a case,
+     * the follower bone needs to be switched from NPC to NPC every time
+     * the dialog switches owner.
+    * **/
+    public void SetCaptionTailBones(Transform TopCaptionBone, Transform BottomCaptionBone)
+    {
+        captionTail.SetCaptionTailBones(TopCaptionBone, BottomCaptionBone);
+    }
 
 }
