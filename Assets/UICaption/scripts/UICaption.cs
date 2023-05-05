@@ -42,8 +42,31 @@ public class UICaption : MonoBehaviour
     [Header("NPC")]
     [Tooltip("The Transform of the root bone of the NPC we will follow.  " +
         "This is often called \"Hips\" or \"Armature\".  " +
-        "This field is required only for captions with tails (hasTail = true)")]
+        "This field is required only for captions with tails (hasTail = true)." +
+        "Also, instead of specifying the root bone, you may specify the top and" +
+        "bottom caption follower bones using the TopCaptionBone and BottomCaption" +
+        "caption bone properties.")]
     public Transform NPC_RootBone;  //the xform of the root bone of the NPC we will follow
+
+    /**
+     * TopCaptionBone and BottomCaptionBone properties:
+     * Rather than specifying the NPC_RootBone, we can specify the TopCaptionBone
+     * and the BottomCaptionBone with these properties.  Specifying the root
+     * bone will trigger a search for the top and bottom caption tail follower bones
+     * using CaptionTail's FindBoneWithNameSuffix() function.
+     * **/
+    public Transform TopCaptionBone
+    {
+        get { return captionTail.TopCaptionBone; }
+        set { captionTail.TopCaptionBone = value; }
+    }
+
+    public Transform BottomCaptionBone
+    {
+        get { return captionTail.BottomCaptionBone; }
+        set { captionTail.BottomCaptionBone = value; }
+    }
+
 
     [Tooltip("Specify the location of the dialog panel.  AUTO lets the " +
     "system decide based on the position of the NPC on the screen." +
@@ -91,6 +114,7 @@ public class UICaption : MonoBehaviour
 
     TMP_Text TopPanelText;
     TMP_Text BottomPanelText;
+
 
 
     // Start is called before the first frame update
@@ -250,21 +274,6 @@ public class UICaption : MonoBehaviour
         callback?.Invoke(text);
 
         SetText("");
-    }
-
-    /**
-     * SetCaptionTailBones()
-     * Rather than searching for the top and bottom caption tail follower bones
-     * using the FindBoneWithNameSuffix() function, the caption tail follow bones
-     * may be explicitly set with this function.  This eliminates the overhead
-     * of searching the bone heirearchy.  This overhead becomes significant
-     * when a single UICaption is used with multiple NPCs.  In such a case,
-     * the follower bone needs to be switched from NPC to NPC every time
-     * the dialog switches owner.
-    * **/
-    public void SetCaptionTailBones(Transform TopCaptionBone, Transform BottomCaptionBone)
-    {
-        captionTail.SetCaptionTailBones(TopCaptionBone, BottomCaptionBone);
     }
 
 }

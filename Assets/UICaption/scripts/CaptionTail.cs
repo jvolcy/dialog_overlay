@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CaptionTail : MonoBehaviour
 {
-    public enum position {TOP, BOTTOM, BOTH, AUTO};
+    public enum position { TOP, BOTTOM, BOTH, AUTO };
 
     //[Header("NPC and Camera")]
 
@@ -12,8 +12,9 @@ public class CaptionTail : MonoBehaviour
         "This is often called \"Hips\" or \"Armature\".")]
     //the xform of the root bone of the NPC we will follow.  The top and bottom
     //tail bones are automatically detected by searching the bone heirearchy
-    //starting from the root bone.  Alternatively, use the SetTopCaptionTailBone()
-    //SetBottomCaptionTailBone() functions and eliminate this search entirely.
+    //starting from the root bone.  Alternatively, use the TopCaptionBone
+    //BottomCaptionBone properties to set the top and bottom bones
+    //and eliminate the search entirely.
     public Transform NPC_RootBone
     {
         //find the top and bottom caption tail follower bones of the NPC once the root bone is assigned
@@ -37,9 +38,34 @@ public class CaptionTail : MonoBehaviour
         }
     }
 
+    /**
+     * TopCaptionBone and BottomCaptionBone properties:
+     * Rather than searching for the top and bottom caption tail follower bones
+     * using the FindBoneWithNameSuffix() function, the caption tail follow bones
+     * may be explicitly set through these properties.  This eliminates the overhead
+     * of searching the bone heirearchy.  This overhead becomes significant
+     * when a single UICaption is used with multiple NPCs.  In such a case,
+     * the follower bone needs to be switched from NPC to NPC every time
+     * the dialog switches owner.
+     * **/
+    public Transform TopCaptionBone
+    {
+        get { return NPC_TopBone; }
+        set { NPC_TopBone = value; }
+    }
+
+    public Transform BottomCaptionBone
+    {
+        get { return NPC_BottomBone; }
+        set { NPC_BottomBone = value; }
+    }
+
+    Transform NPC_TopBone = null; //transform of the NPC top follower bone
+    Transform NPC_BottomBone = null;  //transform of the bottom follower bone
+
+
     [Tooltip("The camera associated with the UI Canvas.  Leave blank to autoselect.")]
     public Camera camera1 = null;   //the camera associated with the canvas;
-
 
     [Header("Panels")]
     [Tooltip("Reference to the top panel object.  Do not edit.")]
@@ -91,6 +117,7 @@ public class CaptionTail : MonoBehaviour
         }
     }
 
+
     position panelLocation = position.AUTO;  //backing field for PanelLocation attribute
 
     [Tooltip("The point on the screen where we switch from bottom to top " +
@@ -112,8 +139,6 @@ public class CaptionTail : MonoBehaviour
 
     RectTransform canvasRectTransform;  //the RectXform of the canvas
 
-    Transform NPC_TopBone = null; //transform of the NPC top follower bone
-    Transform NPC_BottomBone = null;  //transform of the bottom follower bone
 
     // Start is called before the first frame update
     void Start()
@@ -207,23 +232,6 @@ public class CaptionTail : MonoBehaviour
             }
         }
         return null;
-    }
-
-
-    /**
-     * SetCaptionTailBones()
-     * Rather than searching for the top and bottom caption tail follower bones
-     * using the FindBoneWithNameSuffix() function, the caption tail follow bones
-     * may be explicitly set with this function.  This eliminates the overhead
-     * of searching the bone heirearchy.  This overhead becomes significant
-     * when a single UICaption is used with multiple NPCs.  In such a case,
-     * the follower bone needs to be switched from NPC to NPC every time
-     * the dialog switches owner.
-    * **/
-    public void SetCaptionTailBones(Transform TopCaptionBone, Transform BottomCaptionBone)
-    {
-        NPC_TopBone = TopCaptionBone;
-        NPC_BottomBone = BottomCaptionBone;
     }
 
 }

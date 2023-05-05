@@ -75,7 +75,8 @@ public class CaptionDialogCharacter : MonoBehaviour
             return false;
         }
 
-        uICaption.SetCaptionTailBones(Character[name].TopCaptionBone, Character[name].BottomCaptionBone);
+        uICaption.TopCaptionBone = Character[name].TopCaptionBone;
+        uICaption.BottomCaptionBone = Character[name].BottomCaptionBone;
         uICaption.backgroundColor = Character[name].CaptionBackground;
         uICaption.fontSize = Character[name].FontSize;
         uICaption.textColor = Character[name].TextColor;
