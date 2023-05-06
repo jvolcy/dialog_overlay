@@ -9,11 +9,17 @@ public class GameManager : MonoBehaviour
     public Transform AmyNeckBone;
     public Transform SpelmaniteNeckBone;
 
-    int i = 0;
+    UIDialog uIDialog;
 
     // Start is called before the first frame update
     void Start()
     {
+        uIDialog = GetComponent<UIDialog>();
+
+        uIDialog.NewDialog();
+        uIDialog.AddLine("michelle", "Hello, Amy.  Nice whether we're having.\nDon't you think?", 2);
+        uIDialog.AddLine("Amy", "Yes indeed!  The sky is blue, the birds are singing.\nIt doesn't get much better than this.", 2);
+        uIDialog.AddLine("Spelmanite", "Hey there.  What are you 2 talking about?", 4);
 
     }
 
@@ -43,11 +49,11 @@ public class GameManager : MonoBehaviour
             // uiCaption.SetText("The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog.  The quick brown fox jumps over the lazy dog. " + i.ToString(),
             //     3);
             // i++;
-            Michelle("Hello, Amy.  Nice whether we're having.\nDon't you think?", 5);
-            Amy("Yes indeed!  The sky is blue, the birds are singing.\nIt doesn't get much better than this.", 5);
-            Spelmanite("Hey there.  What are you 2 talking about?", 5);
+            //Michelle("Hello, Amy.  Nice whether we're having.\nDon't you think?", 5);
+            //Amy("Yes indeed!  The sky is blue, the birds are singing.\nIt doesn't get much better than this.", 5);
+            //Spelmanite("Hey there.  What are you 2 talking about?", 5);
 
-
+            uIDialog.RunDialog();
         }
 
         if (Input.GetKeyDown(KeyCode.X))
