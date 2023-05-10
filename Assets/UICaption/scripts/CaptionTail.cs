@@ -159,6 +159,9 @@ public class CaptionTail : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (NPC_TopBone == null) return;
+        if (NPC_BottomBone == null) return;
+
         //we need to compute the position of the top and bottom caption tails so that
         //they appear to emerge from the top and bottom panels.  This is a multi-
         //step process.
@@ -219,6 +222,8 @@ public class CaptionTail : MonoBehaviour
      **/
     Transform FindBoneWithNameSuffix(Transform rootBone, string nameSuffix)
     {
+        if (rootBone == null) return null;
+
         //get all bones: these are all the children of the root bone
         Transform[] allBones = rootBone.GetComponentsInChildren<Transform>(); // Get all bones
 

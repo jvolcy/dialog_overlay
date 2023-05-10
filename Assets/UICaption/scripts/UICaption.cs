@@ -46,7 +46,7 @@ public class UICaption : MonoBehaviour
         "Also, instead of specifying the root bone, you may specify the top and" +
         "bottom caption follower bones using the TopCaptionBone and BottomCaption" +
         "caption bone properties.")]
-    public Transform NPC_RootBone;  //the xform of the root bone of the NPC we will follow
+    public Transform NPC_RootBone = null;  //the xform of the root bone of the NPC we will follow
 
     /**
      * TopCaptionBone and BottomCaptionBone properties:
@@ -206,16 +206,16 @@ public class UICaption : MonoBehaviour
         BottomRT.sizeDelta = new Vector2(BottomRT.sizeDelta.x, boundsYSize);
 
 
-        //add the tails, if requested and necessary
-        if (hasTail && text != "")
+        //add the tails, if requested, necessary and possible
+        if (hasTail && text != "" && captionTail.TopCaptionBone != null && captionTail.BottomCaptionBone != null)
         {
             //in this case, we will deletage the enabling/disabling of
             //the caption panels to the CaptionTail object.
 
             //enable the tail
             captionTail.enabled = true;
-            TopTail.SetActive(true);
-            BottomTail.SetActive(true);
+            //TopTail.SetActive(true);
+            //BottomTail.SetActive(true);
 
             //set the caption tail background colors
             TopTail.GetComponent<Image>().color = backgroundColor;
@@ -227,7 +227,7 @@ public class UICaption : MonoBehaviour
             captionTail.autoPlacementLowerTriggerPoint = autoPlacementLowerTriggerPoint;
 
             //specify the NPC root bone
-            captionTail.NPC_RootBone = NPC_RootBone;
+            //captionTail.NPC_RootBone = NPC_RootBone;
         }
         else
         {
@@ -271,9 +271,15 @@ public class UICaption : MonoBehaviour
             yield return new WaitForSeconds(duration);
 
         }
-        callback?.Invoke(text);
+
+        //TopPanel.SetActive(false);
+        //BottomPanel.SetActive(false);
 
         SetText("");
+
+        callback?.Invoke(text);
+
+
     }
 
 }
