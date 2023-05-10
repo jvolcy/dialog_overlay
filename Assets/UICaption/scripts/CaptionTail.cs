@@ -157,6 +157,7 @@ public class CaptionTail : MonoBehaviour
     }
 
     // Update is called once per frame
+    Transform prev_NPC_TopBone = null;
     void Update()
     {
         if (NPC_TopBone == null) return;
@@ -200,13 +201,26 @@ public class CaptionTail : MonoBehaviour
             }
 
             //swith to bottom panel
-            if ((npc_top_bone_pos.y + npc_bottom_bone_pos.y) / 2 < autoPlacementLowerTriggerPoint)
+            else if ((npc_top_bone_pos.y + npc_bottom_bone_pos.y) / 2 < autoPlacementLowerTriggerPoint)
             {
                 TopPanel.gameObject.SetActive(false);
                 TopTail.gameObject.SetActive(false);
                 BottomPanel.gameObject.SetActive(true);
                 BottomTail.gameObject.SetActive(true);
             }
+            else //here we are in the hysteresis between the top and bottom trigger points
+            {
+                //default to top if this is the first frame with a new NPC inside the hysteresis
+                if (prev_NPC_TopBone != NPC_TopBone)
+                {
+                    TopPanel.gameObject.SetActive(true);
+                    TopTail.gameObject.SetActive(true);
+                    BottomPanel.gameObject.SetActive(false);
+                    BottomTail.gameObject.SetActive(false);
+                }
+            }
+
+            prev_NPC_TopBone = NPC_TopBone; //indicate that this is no longer the first frame.
         }
     }
 

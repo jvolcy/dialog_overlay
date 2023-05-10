@@ -17,10 +17,10 @@ public class GameManager : MonoBehaviour
         uIDialog = GetComponent<UIDialog>();
 
         uIDialog.NewDialog();
-        uIDialog.AddLine("michelle", "Hello, Amy.  Nice whether we're having.\nDon't you think?", 2);
-        uIDialog.AddLine("caption", "[Top] Meanwhile, at the Hall of Justice...", 3);
-        uIDialog.AddLine("Amy", "Yes indeed!  The sky is blue, the birds are singing.\nIt doesn't get much better than this.", 5);
-        uIDialog.AddLine("caption2", "[Bottom] Meanwhile, at the Hall of Justice...", 3);
+        uIDialog.AddLine("michelle", "Hello, Amy.  Nice whether we're having.\nDon't you think?", 3);
+        uIDialog.AddLine("caption", "[Top] Meanwhile, at the Hall of Justice...", 2);
+        uIDialog.AddLine("Amy", "Yes indeed!  The sky is blue, the birds are singing.\nIt doesn't get much better than this.", 3);
+        uIDialog.AddLine("caption2", "[Bottom] Meanwhile, at the Hall of Justice...", 2);
         uIDialog.AddLine("Spelmanite", "Hey there.  What are you 2 talking about?", 2);
 
     }
