@@ -210,12 +210,14 @@ public class UICaption : MonoBehaviour
         if (hasTail && text != "" && captionTail.TopCaptionBone != null && captionTail.BottomCaptionBone != null)
         {
             //in this case, we will deletage the enabling/disabling of
-            //the caption panels to the CaptionTail object.
+            //the caption panels to the CaptionTail object.  Here, we default to top
+            TopPanel.SetActive(true);
+            BottomPanel.SetActive(false);
 
-            //enable the tail
+            //enable the tail default to top
             captionTail.enabled = true;
-            //TopTail.SetActive(true);
-            //BottomTail.SetActive(true);
+            TopTail.SetActive(true);
+            BottomTail.SetActive(false);
 
             //set the caption tail background colors
             TopTail.GetComponent<Image>().color = backgroundColor;
@@ -225,6 +227,33 @@ public class UICaption : MonoBehaviour
             captionTail.PanelLocation = PanelLocation;
             captionTail.autoPlacementUpperTriggerPoint = autoPlacementUpperTriggerPoint;
             captionTail.autoPlacementLowerTriggerPoint = autoPlacementLowerTriggerPoint;
+
+
+            /*
+            //enable the tail
+            captionTail.enabled = true;
+
+            switch (PanelLocation)
+            {
+                case CaptionTail.position.TOP:
+                    TopTail.SetActive(true);
+                    BottomTail.SetActive(false);
+                    break;
+                case CaptionTail.position.BOTTOM:
+                    TopTail.SetActive(false);
+                    BottomTail.SetActive(true);
+                    break;
+                case CaptionTail.position.BOTH:
+                    TopTail.SetActive(true);
+                    BottomTail.SetActive(true);
+                    break;
+                default:
+                    //default to top
+                    TopPanel.SetActive(true);
+                    BottomPanel.SetActive(false);
+                    break;
+            }
+            */
 
             //specify the NPC root bone
             //captionTail.NPC_RootBone = NPC_RootBone;
