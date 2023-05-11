@@ -17,24 +17,20 @@ public class DialogCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log("DialogCharacger Start()");
         if (CharacterName == "")
         {
             Debug.Log("No character name provided; defaulting to " + name + ".  ");
             CharacterName = name;
         }
 
-        Debug.Log("Registering " + CharacterName + "...");
+        //Debug.Log("Registering " + CharacterName + "...");
         UIDialog.CharacterDictionary.Add(CharacterName, this);
     }
 
 
     private void OnDestroy()
     {
-        //Debug.Log("DialogCharacter Exit()");
-
         UIDialog.CharacterDictionary.Remove(CharacterName);
-        Debug.Log("Unregistered " + CharacterName + ".");
-        
+        //Debug.Log("Unregistered " + CharacterName + ".");
     }
 }

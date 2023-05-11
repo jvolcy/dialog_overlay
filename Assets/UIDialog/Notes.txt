@@ -1,0 +1,63 @@
+UIDialog
+========
+Use the UIDialog package to create on-screen caption that optionally track the movement of NPCs.  Each NPC's caption is customizable with respect to font, text color, background color and placement logic.
+There are 2 modes of operation: "Autonomous Dialog" and "Simple Caption".  Both modes feature caption display timing and a post-caption callback mechanism. UIDialog works with a screen canvas.
+
+
+How To Use
+==========
+
+1 Instantiate the UICaption prefab as a child of your canvas.  This should be an overlay canvas (screen space).  You may configure the UICaption script component to set the default font, background, text color, caption position, upper and lower trigger points.  These will be described later on.
+
+
+2 To each NPC that will speak, add a DialogCharacter script component.  Here, you can override the defaults set in step 1 on a per-NPC basis.  Specify a unique name for each character in the DialogCharacter's Inspector panel.  This name is how the character will be addressed in code.  If you do not specify a name, the gameobject name will be used.
+
+
+3 Configure the captions.
+
+3.1 - You can create captions and callouts.  "Captions" are text that appear at the top or bottom of the screen.  "Callouts" are captions with tails.  A tail is the pointer that attributes a caption to a specific NPC.  The tail extends from the caption and follows a specified "bone" in the NPC's rig.  Use the "hasTail" boolean checkbox to enable/disable the tail.  Disabling the tail results in a caption.  Enabling the tail results in a callout.
+
+3.2 - You can specify the placement of the caption on the screen.  The options are TOP, BOTTOM, BOTH and AUTO.  TOP specifies that the caption will appear at the top of the screen.  BOTTOM specifies that the caption is to appear at the BOTTOM of the screen.  BOTH specifies that the caption will appear both at the TOP and BOTTOM of the screen.  AUTO allows the system to choose between TOP and BOTTOM, depending on the vertical position of the NPC on the screen.
+
+3.3 - If you enable the tail, you need to specify the bones in the NPC's rig that the tail will track.  If you set the placement of the caption to TOP, you need to specify a Top Caption Bone.  The callout's tail will extent from the caption to this bone.  Likewise, if you specify a BOTTOM placement, you need to specify a Bottom Caption Bone.  Generally, the "headtop_end" bone is a good choice for the top bone and the "neck" bone is a good choice for the bottom bone.  If you specified AUTO placement, you need to specify both a top and bottom bone.  If you have not enabled the tail, you do not need to specify any bones.
+
+3.4 - For AUTO caption placement, you need to specify the vertical point on the screen when the caption switches from top to bottom and from bottom to top.  These are the Upper and Lower Trigger Points of the UICaption prefab from section 1.  To keep the caption from rapidly switching between the top and bottom position as might happen when an NPC is near a single trigger point, UIDialog makes use of 2 trigger points.  Trigger points are specified as % of screen height.  Setting a trigger point to 1 sets it to the top of the screen.  Setting it to 0 sets it to the bottom of the screen.  A value of 0.5 therefore sets the trigger point to the middle of the screen.  Reasonable values for the top and bottom trigger points would be 0.51 and 0.49 respectively.  Now, if the caption happens to be on top, the NPC's vertical position on the screen would need to drop below the bottom trigger point of 0.49 before the caption switches to the bottom.  Once at the bottom, however, the NPC's vertical position would have to rise to above the top trigger point of 0.51 before the caption once again is returned to the top.  The difference between the top and bottom triggers is the trigger hysteresis.
+
+
+4 Modes
+
+The UIDialog package can be used in one of 2 modes: a "Simple Caption" mode and an "Autonomous Dialog" mode.  Both modes can be used in a single project, though not concurrently.  No matter the mode, you need to create a UIDialog object.  This is a gameobject that contains a UIDialog component.  You can create an empty gameobject for this purpose, or you can use an existing object like a game manager object for this purpose.  Only one UIDialog object should exist in a scene.
+
+4.1 Simple Caption Mode
+To operate in simple caption mode, first, get a reference to the UIDialog component.  Now use the Speak() function to create a caption.  The prototype for the Speak() function is
+
+    public void Speak(string CharacterName="", string captionText="", float duration=-1, System.Action<string> callback=null)
+
+
+The parameters are defined as follows:
+	CharacterName - this is the name of the NPC from section 2.
+	captionText - this is the text to be displayed in the caption.
+	duration - you may specify how long the caption should be displayed.  After the display time expires, the caption is de-activated.  The default value of -1 indicates an infinite display time.
+	callback - specifies the name of a function that will be called when the display time expires.  The functional prototype for the callback function is void funcName(string).
+
+Invoking the Speak() function with no arguments de-activates the caption.
+
+
+4.2 Autonomous Dialog Mode
+
+In autonomous dialog mode, you setup a sequence of captions to form a conversation between NPCs.  You then play the sequence.  The relevant functions, NewDialog(), AddLine(), and RunDialog() are illustrated in the pseudocode segment below:
+
+1.  UIDialog uIDialog = GetComponent<UIDialog>();
+2.  uIDialog.NewDialog();   //create a new dialog
+3.  uIDialog.AddLine("Michelle", "Hello, Amy.  Nice whether we're having, don't you think?", 3);
+4.  uIDialog.AddLine("Amy", "Yes indeed!  It doesn't get much better than this.", 3);
+5.  uIDialog.AddLine("Sam", "Hey there.  What are you 2 talking about?", 4);
+6.  uIDialog.RunDialog(func);
+
+In line 1, we get a reference to the UIDialog component
+In line 2, we create a new, empty dialog conversation
+In line 3, we specify that the character "Michelle" will speak for 3 seconds
+In line 4, we specify that the character "Amy" will then speak for 3 seconds
+In line 5, we specify that the character "Sam" will then speak for 4 seconds
+In line 6, execute the dialog and (optionally) specify that the function 'func' is to be called at the end of the sequence.
+

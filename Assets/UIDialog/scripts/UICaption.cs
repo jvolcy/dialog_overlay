@@ -39,6 +39,7 @@ public class UICaption : MonoBehaviour
 
     public bool hasTail = true;
 
+    /*
     [Header("NPC")]
     [Tooltip("The Transform of the root bone of the NPC we will follow.  " +
         "This is often called \"Hips\" or \"Armature\".  " +
@@ -46,7 +47,8 @@ public class UICaption : MonoBehaviour
         "Also, instead of specifying the root bone, you may specify the top and" +
         "bottom caption follower bones using the TopCaptionBone and BottomCaption" +
         "caption bone properties.")]
-    public Transform NPC_RootBone = null;  //the xform of the root bone of the NPC we will follow
+    //public Transform NPC_RootBone = null;  //the xform of the root bone of the NPC we will follow
+    */
 
     /**
      * TopCaptionBone and BottomCaptionBone properties:

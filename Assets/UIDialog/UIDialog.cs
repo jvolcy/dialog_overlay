@@ -11,7 +11,7 @@ public class UIDialog : MonoBehaviour
     //The current class uses the dictionary, but does not manage it.
     static public Dictionary<string, DialogCharacter> CharacterDictionary = new Dictionary<string, DialogCharacter>();
 
-    public UICaption uICaption;
+    public UICaption uICaption = null;
 
     [SerializeField]
     public Tuple<string, string, float> dialogLine;
@@ -26,6 +26,17 @@ public class UIDialog : MonoBehaviour
     System.Action<string> dialogCompleteCallback;
     string callbackIDString;       //user-supplied ID string used with dialogCompletionCallback
 
+    void Start()
+    {
+        //if a uICaption is not specified, look for one
+        if (uICaption == null)
+        {
+            Debug.Log("Searching for a uICaption gameobject...");
+            uICaption = FindObjectOfType<UICaption>();
+
+            Debug.Log( uICaption ? "Found a uICaption object." :"Search Failed.");
+        }
+    }
 
     public void NewDialog()
     {
@@ -54,12 +65,12 @@ public class UIDialog : MonoBehaviour
 
     void executeLine(string s)
     {
-        Debug.Log("ExecuteLine..." + dialogPointer);
+        //Debug.Log("ExecuteLine..." + dialogPointer);
 
         if (dialogPointer == Dialog.Count)  //end of dialog
         {
             dialogCompleteCallback?.Invoke(callbackIDString);
-            Debug.Log("Dialog Done!");
+            //Debug.Log("Dialog Done!");
             return;
         }
 
@@ -67,12 +78,16 @@ public class UIDialog : MonoBehaviour
         dialogPointer++;
     }
 
-    public void Speak(string CharacterName, string captionText, float duration=-1, System.Action<string> callback=null)
+    public void Speak(string CharacterName="", string captionText="", float duration=-1, System.Action<string> callback=null)
     {
-        Debug.Log("Speak: " + CharacterName + ":" + captionText);
+        //Debug.Log("Speak: " + CharacterName + ":" + captionText);
         if (SwitchNPC(CharacterName))   //verify this is a valid character and switch to its properties if it is
         {
             uICaption.SetText(captionText, duration, callback);
+        }
+        else
+        {
+            uICaption.SetText("");
         }
     }
 
@@ -103,34 +118,3 @@ public class UIDialog : MonoBehaviour
 }
 
 
-
-/**
- * HOW TO USE
- * 
- * 1) Get a reference to the CaptionDialogCharacter component
- *      captionDialogChar = GetComponent<>(CaptionDialogCharacter);
- * 2) Create a caption character.  In this example, our character will be
- * named "Laura".  Character names must be unique.  These are the keys to
- * an ibnternally maintained character dictionary.
- * 
- *      captionDialogChar.AddCharacter("Laura")
- *      
- * 3) Customize the caption properties for this character.
- * 
- * **/
-
-/*
-public class CaptionDialogCharacter : MonoBehaviour
-{
-    public UICaption uICaption;
-    //public Dictionary<string, DialogCharacter> Character = new Dictionary<string, DialogCharacter>();
-
-    //Dialog is a dictionary of character names and text/duration tuples
-    public DialogCharactersDictionary dialogCharacters;
-    //public Dictionary<string, (string, float)> Dialog = new Dictionary<string, (string, float)>();
-
-
-
-
-}
-*/
